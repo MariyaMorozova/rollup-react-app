@@ -5,6 +5,9 @@
   "repository": "https://github.com/MariyaMorozova/rollup-react-app.git",
   "author": "Morozova Mariya",
   "license": "MIT",
+  "scripts": {
+    "build": "rollup -c"
+  },
   "private": true,
   "devDependencies": {
     "rollup": "^1.21.4"
