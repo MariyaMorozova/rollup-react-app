@@ -1,0 +1,9 @@
+{
+  "name": "rollup-react-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/MariyaMorozova/rollup-react-app.git",
+  "author": "Morozova Mariya",
+  "license": "MIT",
+  "private": true
+}
