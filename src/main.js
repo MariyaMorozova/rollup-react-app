@@ -1,7 +1,7 @@
 import {version} from '../package.json';
 import _ from 'lodash';
 
-export default function () {
+export default () => {
     console.log(
         _.join([5, 6], ', ')
     );
