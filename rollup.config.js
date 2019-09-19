@@ -1,3 +1,4 @@
+import resolve from 'rollup-plugin-node-resolve';
 import json from 'rollup-plugin-json';
 
 export default {
@@ -6,5 +7,9 @@ export default {
         file: 'bundle.js',
         format: 'cjs'
     },
-    plugins: [json()]
+    plugins: [
+        resolve(), 
+        json()
+    ],
+    external: ['lodash']
 };
