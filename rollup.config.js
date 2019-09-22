@@ -3,9 +3,13 @@ import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
 import commonjs from 'rollup-plugin-commonjs';
+import terser from 'rollup-plugin-terser';
+import replace from 'rollup-plugin-replace';
+
+const env = process.env.NODE_ENV;
 
 export default {    
-    input: 'src/main.js',
+    input: 'src/index.js',
     output: {
         name: 'MyBundle',
         file: 'dist/bundle.js',
@@ -16,11 +20,13 @@ export default {
     },
     plugins: [
         resolve(),
-        commonjs(),
+        replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
+        commonjs(),        
         babel({
             exclude: 'node_modules/**'
         }),        
         json(),
+        env === 'production' && terser(),
         serve('dist')
     ]
 };
