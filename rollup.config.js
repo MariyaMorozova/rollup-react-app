@@ -6,9 +6,14 @@ import commonjs from 'rollup-plugin-commonjs';
 import terser from 'rollup-plugin-terser';
 import replace from 'rollup-plugin-replace';
 
+// Convert CJS modules to ES6, so they can be included in a bundle
+import postcss from 'rollup-plugin-postcss'
+import postcssModules from 'postcss-modules'
+import postcssPresetEnv from 'postcss-preset-env'
+
 const env = process.env.NODE_ENV;
 
-export default {    
+export default {
     input: 'src/index.js',
     output: {
         name: 'MyBundle',
@@ -19,13 +24,39 @@ export default {
         }
     },
     plugins: [
-        resolve(),
-        replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
-        commonjs(),        
+        resolve({
+            browser: true,
+            extensions: ['.js', '.jsx', '.json'],
+        }),
+        json(),
+        commonjs({
+            include: ['node_modules/**'],
+            exclude: ['node_modules/process-es6/**'],
+            namedExports: {
+              'node_modules/react/index.js': [
+                'Children',
+                'Component',
+                'PropTypes',
+                'createElement',
+              ],
+              'node_modules/react-dom/index.js': ['render'],
+            },
+          }),
+        postcss({
+            modules: true,
+            plugins: [
+              postcssModules({
+                generateScopedName: '[local]',
+              }),
+              postcssPresetEnv({
+                stage: 0,
+              }),
+            ],
+          }),
         babel({
             exclude: 'node_modules/**'
-        }),        
-        json(),
+        }),
+        replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
         env === 'production' && terser(),
         serve('dist')
     ]
