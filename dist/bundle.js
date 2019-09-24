@@ -26754,7 +26754,7 @@
       value: function render() {
         return react.createElement("button", {
           className: "square"
-        });
+        }, this.props.value);
       }
     }]);
 
@@ -26775,7 +26775,9 @@
     _createClass(Board, [{
       key: "renderSquare",
       value: function renderSquare(i) {
-        return react.createElement(Square, null);
+        return react.createElement(Square, {
+          value: i
+        });
       }
     }, {
       key: "render",
