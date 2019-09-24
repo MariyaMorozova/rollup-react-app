@@ -26743,31 +26743,23 @@
   function (_React$Component) {
     _inherits(Square, _React$Component);
 
-    function Square(props) {
-      var _this;
-
+    function Square() {
       _classCallCheck(this, Square);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Square).call(this, props));
-      _this.state = {
-        value: null
-      };
-      return _this;
+      return _possibleConstructorReturn(this, _getPrototypeOf(Square).apply(this, arguments));
     }
 
     _createClass(Square, [{
       key: "render",
       value: function render() {
-        var _this2 = this;
+        var _this = this;
 
         return react.createElement("button", {
           className: "square",
           onClick: function onClick() {
-            _this2.setState({
-              value: 'X'
-            });
+            return _this.props.onClick();
           }
-        }, this.state.value);
+        }, this.props.value);
       }
     }]);
 
@@ -26779,17 +26771,37 @@
   function (_React$Component2) {
     _inherits(Board, _React$Component2);
 
-    function Board() {
+    function Board(props) {
+      var _this2;
+
       _classCallCheck(this, Board);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(Board).apply(this, arguments));
+      _this2 = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
+      _this2.state = {
+        squares: Array(9).fill(null)
+      };
+      return _this2;
     }
 
     _createClass(Board, [{
+      key: "handleClick",
+      value: function handleClick(i) {
+        var squares = this.state.squares.slice();
+        squares[i] = 'X';
+        this.setState({
+          squares: squares
+        });
+      }
+    }, {
       key: "renderSquare",
       value: function renderSquare(i) {
+        var _this3 = this;
+
         return react.createElement(Square, {
-          value: i
+          value: this.state.squares[i],
+          onClick: function onClick() {
+            return _this3.handleClick(i);
+          }
         });
       }
     }, {
