@@ -26841,6 +26841,7 @@
         history: [{
           squares: Array(9).fill(null)
         }],
+        stepNumber: 0,
         xIsNext: true
       };
       return _this2;
@@ -26849,7 +26850,7 @@
     _createClass(Game, [{
       key: "handleClick",
       value: function handleClick(i) {
-        var history = this.state.history;
+        var history = this.state.history.slice(0, this.state.stepNumber + 1);
         var current = history[history.length - 1];
         var squares = current.squares.slice();
 
@@ -26857,12 +26858,21 @@
           return;
         }
 
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        squares[i] = this.state.xIsNext ? "X" : "O";
         this.setState({
           history: history.concat([{
             squares: squares
           }]),
+          stepNumber: history.length,
           xIsNext: !this.state.xIsNext
+        });
+      }
+    }, {
+      key: "jumpTo",
+      value: function jumpTo(step) {
+        this.setState({
+          stepNumber: step,
+          xIsNext: step % 2 === 0
         });
       }
     }, {
@@ -26871,11 +26881,13 @@
         var _this3 = this;
 
         var history = this.state.history;
-        var current = history[history.length - 1];
+        var current = history[this.state.stepNumber];
         var winner = calculateWinner(current.squares);
         var moves = history.map(function (step, move) {
-          var desc = move ? 'Перейти к ходу #' + move : 'К началу игры';
-          return react.createElement("li", null, react.createElement("button", {
+          var desc = move ? 'Go to move #' + move : 'Go to game start';
+          return react.createElement("li", {
+            key: move
+          }, react.createElement("button", {
             onClick: function onClick() {
               return _this3.jumpTo(move);
             }
@@ -26884,9 +26896,9 @@
         var status;
 
         if (winner) {
-          status = 'Winner: ' + winner;
+          status = "Winner: " + winner;
         } else {
-          status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+          status = "Next player: " + (this.state.xIsNext ? "X" : "O");
         }
 
         return react.createElement("div", {
@@ -26905,7 +26917,10 @@
     }]);
 
     return Game;
-  }(react.Component);
+  }(react.Component); // ========================================
+
+
+  reactDom.render(react.createElement(Game, null), document.getElementById('root'));
 
   function calculateWinner(squares) {
     var lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
@@ -26922,9 +26937,6 @@
     }
 
     return null;
-  } // ========================================
-
-
-  reactDom.render(react.createElement(Game, null), document.getElementById('root'));
+  }
 
 }());
