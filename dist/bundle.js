@@ -26757,7 +26757,8 @@
 
       _this = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
       _this.state = {
-        squares: Array(9).fill(null)
+        squares: Array(9).fill(null),
+        xIsNext: true
       };
       return _this;
     }
@@ -26766,9 +26767,10 @@
       key: "handleClick",
       value: function handleClick(i) {
         var squares = this.state.squares.slice();
-        squares[i] = 'X';
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
-          squares: squares
+          squares: squares,
+          xIsNext: !this.state.xIsNext
         });
       }
     }, {
@@ -26786,7 +26788,7 @@
     }, {
       key: "render",
       value: function render() {
-        var status = 'Next player: X';
+        var status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         return react.createElement("div", null, react.createElement("div", {
           className: "status"
         }, status), react.createElement("div", {
