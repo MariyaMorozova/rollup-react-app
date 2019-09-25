@@ -26738,49 +26738,28 @@
   var css = "body {\r\n    font: 14px \"Century Gothic\", Futura, sans-serif;\r\n    margin: 20px;\r\n  }\r\n  \r\n  ol, ul {\r\n    padding-left: 30px;\r\n  }\r\n  \r\n  .index_board-row__1gNuD:after {\r\n    clear: both;\r\n    content: \"\";\r\n    display: table;\r\n  }\r\n  \r\n  .index_status__2YHPg {\r\n    margin-bottom: 10px;\r\n  }\r\n  \r\n  .index_square__2g4-o {\r\n    background: #fff;\r\n    border: 1px solid #999;\r\n    float: left;\r\n    font-size: 24px;\r\n    font-weight: bold;\r\n    line-height: 34px;\r\n    height: 34px;\r\n    margin-right: -1px;\r\n    margin-top: -1px;\r\n    padding: 0;\r\n    text-align: center;\r\n    width: 34px;\r\n  }\r\n  \r\n  .index_square__2g4-o:focus {\r\n    outline: none;\r\n  }\r\n  \r\n  .index_kbd-navigation__2rC6c .index_square__2g4-o:focus {\r\n    background: #ddd;\r\n  }\r\n  \r\n  .index_game__3xbR8 {\r\n    display: flex;\r\n    flex-direction: row;\r\n  }\r\n  \r\n  .index_game-info__2mDVm {\r\n    margin-left: 20px;\r\n  }";
   styleInject(css);
 
-  var Square =
-  /*#__PURE__*/
-  function (_React$Component) {
-    _inherits(Square, _React$Component);
-
-    function Square() {
-      _classCallCheck(this, Square);
-
-      return _possibleConstructorReturn(this, _getPrototypeOf(Square).apply(this, arguments));
-    }
-
-    _createClass(Square, [{
-      key: "render",
-      value: function render() {
-        var _this = this;
-
-        return react.createElement("button", {
-          className: "square",
-          onClick: function onClick() {
-            return _this.props.onClick();
-          }
-        }, this.props.value);
-      }
-    }]);
-
-    return Square;
-  }(react.Component);
+  function Square(props) {
+    return react.createElement("button", {
+      className: "square",
+      onClick: props.onClick
+    }, props.value);
+  }
 
   var Board =
   /*#__PURE__*/
-  function (_React$Component2) {
-    _inherits(Board, _React$Component2);
+  function (_React$Component) {
+    _inherits(Board, _React$Component);
 
     function Board(props) {
-      var _this2;
+      var _this;
 
       _classCallCheck(this, Board);
 
-      _this2 = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
-      _this2.state = {
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
+      _this.state = {
         squares: Array(9).fill(null)
       };
-      return _this2;
+      return _this;
     }
 
     _createClass(Board, [{
@@ -26795,12 +26774,12 @@
     }, {
       key: "renderSquare",
       value: function renderSquare(i) {
-        var _this3 = this;
+        var _this2 = this;
 
         return react.createElement(Square, {
           value: this.state.squares[i],
           onClick: function onClick() {
-            return _this3.handleClick(i);
+            return _this2.handleClick(i);
           }
         });
       }
@@ -26825,8 +26804,8 @@
 
   var Game =
   /*#__PURE__*/
-  function (_React$Component3) {
-    _inherits(Game, _React$Component3);
+  function (_React$Component2) {
+    _inherits(Game, _React$Component2);
 
     function Game() {
       _classCallCheck(this, Game);
