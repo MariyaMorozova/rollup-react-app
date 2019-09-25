@@ -70,6 +70,48 @@
     return _assertThisInitialized(self);
   }
 
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest();
+  }
+
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+
+  function _iterableToArrayLimit(arr, i) {
+    if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+      return;
+    }
+
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _e = undefined;
+
+    try {
+      for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+
+    return _arr;
+  }
+
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance");
+  }
+
   function unwrapExports (x) {
   	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
   }
@@ -26767,6 +26809,11 @@
       key: "handleClick",
       value: function handleClick(i) {
         var squares = this.state.squares.slice();
+
+        if (calculateWinner(squares) || squares[i]) {
+          return;
+        }
+
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
           squares: squares,
@@ -26788,7 +26835,15 @@
     }, {
       key: "render",
       value: function render() {
-        var status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        var winner = calculateWinner(this.state.squares);
+        var status;
+
+        if (winner) {
+          status = 'Winner: ' + winner;
+        } else {
+          status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
+
         return react.createElement("div", null, react.createElement("div", {
           className: "status"
         }, status), react.createElement("div", {
@@ -26829,7 +26884,24 @@
     }]);
 
     return Game;
-  }(react.Component); // ========================================
+  }(react.Component);
+
+  function calculateWinner(squares) {
+    var lines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+
+    for (var i = 0; i < lines.length; i++) {
+      var _lines$i = _slicedToArray(lines[i], 3),
+          a = _lines$i[0],
+          b = _lines$i[1],
+          c = _lines$i[2];
+
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        return squares[a];
+      }
+    }
+
+    return null;
+  } // ========================================
 
 
   reactDom.render(react.createElement(Game, null), document.getElementById('root'));
