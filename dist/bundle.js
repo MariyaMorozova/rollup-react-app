@@ -26792,61 +26792,28 @@
   function (_React$Component) {
     _inherits(Board, _React$Component);
 
-    function Board(props) {
-      var _this;
-
+    function Board() {
       _classCallCheck(this, Board);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Board).call(this, props));
-      _this.state = {
-        squares: Array(9).fill(null),
-        xIsNext: true
-      };
-      return _this;
+      return _possibleConstructorReturn(this, _getPrototypeOf(Board).apply(this, arguments));
     }
 
     _createClass(Board, [{
-      key: "handleClick",
-      value: function handleClick(i) {
-        var squares = this.state.squares.slice();
-
-        if (calculateWinner(squares) || squares[i]) {
-          return;
-        }
-
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-          squares: squares,
-          xIsNext: !this.state.xIsNext
-        });
-      }
-    }, {
       key: "renderSquare",
       value: function renderSquare(i) {
-        var _this2 = this;
+        var _this = this;
 
         return react.createElement(Square, {
-          value: this.state.squares[i],
+          value: this.props.squares[i],
           onClick: function onClick() {
-            return _this2.handleClick(i);
+            return _this.props.onClick(i);
           }
         });
       }
     }, {
       key: "render",
       value: function render() {
-        var winner = calculateWinner(this.state.squares);
-        var status;
-
-        if (winner) {
-          status = 'Winner: ' + winner;
-        } else {
-          status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-        }
-
         return react.createElement("div", null, react.createElement("div", {
-          className: "status"
-        }, status), react.createElement("div", {
           className: "board-row"
         }, this.renderSquare(0), this.renderSquare(1), this.renderSquare(2)), react.createElement("div", {
           className: "board-row"
@@ -26864,22 +26831,68 @@
   function (_React$Component2) {
     _inherits(Game, _React$Component2);
 
-    function Game() {
+    function Game(props) {
+      var _this2;
+
       _classCallCheck(this, Game);
 
-      return _possibleConstructorReturn(this, _getPrototypeOf(Game).apply(this, arguments));
+      _this2 = _possibleConstructorReturn(this, _getPrototypeOf(Game).call(this, props));
+      _this2.state = {
+        history: [{
+          squares: Array(9).fill(null)
+        }],
+        xIsNext: true
+      };
+      return _this2;
     }
 
     _createClass(Game, [{
+      key: "handleClick",
+      value: function handleClick(i) {
+        var history = this.state.history;
+        var current = history[history.length - 1];
+        var squares = current.squares.slice();
+
+        if (calculateWinner(squares) || squares[i]) {
+          return;
+        }
+
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+          history: history.concat([{
+            squares: squares
+          }]),
+          xIsNext: !this.state.xIsNext
+        });
+      }
+    }, {
       key: "render",
       value: function render() {
+        var _this3 = this;
+
+        var history = this.state.history;
+        var current = history[history.length - 1];
+        var winner = calculateWinner(current.squares);
+        var status;
+
+        if (winner) {
+          status = 'Winner: ' + winner;
+        } else {
+          status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
+
         return react.createElement("div", {
           className: "game"
         }, react.createElement("div", {
           className: "game-board"
-        }, react.createElement(Board, null)), react.createElement("div", {
+        }, react.createElement(Board, {
+          squares: current.squares,
+          onClick: function onClick(i) {
+            return _this3.handleClick(i);
+          }
+        })), react.createElement("div", {
           className: "game-info"
-        }, react.createElement("div", null), react.createElement("ol", null)));
+        }, react.createElement("div", null, status), react.createElement("ol", null)));
       }
     }]);
 
