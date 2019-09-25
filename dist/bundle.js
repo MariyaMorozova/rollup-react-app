@@ -26873,6 +26873,14 @@
         var history = this.state.history;
         var current = history[history.length - 1];
         var winner = calculateWinner(current.squares);
+        var moves = history.map(function (step, move) {
+          var desc = move ? 'Перейти к ходу #' + move : 'К началу игры';
+          return react.createElement("li", null, react.createElement("button", {
+            onClick: function onClick() {
+              return _this3.jumpTo(move);
+            }
+          }, desc));
+        });
         var status;
 
         if (winner) {
@@ -26892,7 +26900,7 @@
           }
         })), react.createElement("div", {
           className: "game-info"
-        }, react.createElement("div", null, status), react.createElement("ol", null)));
+        }, react.createElement("div", null, status), react.createElement("ol", null, moves)));
       }
     }]);
 
