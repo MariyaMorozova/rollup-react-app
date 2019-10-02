@@ -1,5 +1,5 @@
+import * as _ from "lodash";
 import {version} from '../package.json';
-import _ from 'lodash';
 
 export default () => {
     console.log(

@@ -3,9 +3,10 @@ import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
 import commonjs from 'rollup-plugin-commonjs';
+import typescript from 'rollup-plugin-typescript2';
 
 export default {    
-    input: 'src/main.js',
+    input: 'src/main.ts',
     output: {
         name: 'MyBundle',
         file: 'dist/bundle.js',
@@ -15,12 +16,13 @@ export default {
         }
     },
     plugins: [
-        resolve(),
+        resolve(),        
+        typescript(),
+        json(),
         commonjs(),
         babel({
             exclude: 'node_modules/**'
-        }),        
-        json(),
+        }),
         serve('dist')
     ]
 };
