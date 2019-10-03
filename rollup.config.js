@@ -17,7 +17,7 @@ export default {
     input: 'src/index.js',
     output: {
         name: 'MyBundle',
-        file: 'dist/bundle.js',
+        file: 'build/dist/bundle.js',
         format: 'iife',
         globals: {
             lodash: '_'
@@ -58,6 +58,6 @@ export default {
         }),
         replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
         env === 'production' && terser(),
-        serve('dist')
+        serve('build')
     ]
 };
