@@ -60,6 +60,6 @@ export default {
         }),
         replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
         env === 'production' && terser(),
-        serve('dist')
+        serve('build')
     ]
 };
