@@ -5,7 +5,7 @@ import serve from 'rollup-plugin-serve';
 import commonjs from 'rollup-plugin-commonjs';
 import terser from 'rollup-plugin-terser';
 import replace from 'rollup-plugin-replace';
-import typescript from 'rollup-plugin-typescript2';
+//import typescript from 'rollup-plugin-typescript2';
 
 // Convert CJS modules to ES6, so they can be included in a bundle
 import postcss from 'rollup-plugin-postcss';
@@ -15,10 +15,10 @@ import postcssPresetEnv from 'postcss-preset-env';
 const env = process.env.NODE_ENV;
 
 export default {    
-    input: 'src/main.ts',
+    input: 'src/index.js',//'src/main.ts',
     output: {
         name: 'MyBundle',
-        file: 'dist/bundle.js',
+        file: 'build/dist/bundle.js',
         format: 'iife',
         globals: {
             lodash: '_'
@@ -29,7 +29,7 @@ export default {
             browser: true,
             extensions: ['.js', '.jsx', '.json'],
         }),
-        typescript(),
+        //typescript(),
         json(),
         commonjs({
             include: ['node_modules/**'],
@@ -40,6 +40,8 @@ export default {
                 'Component',
                 'PropTypes',
                 'createElement',
+                'createContext',
+                'forwardRef'
               ],
               'node_modules/react-dom/index.js': ['render'],
             },
